@@ -18,5 +18,8 @@ public class MappingProfiles : Profile
 
         CreateMap<ClienteGamaProducto, ClienteGamaProductoDto>()
         .ReverseMap();
+
+        CreateMap<ClienteCantidadPedidos, ClienteCantidadPedidosDto>()
+        .ReverseMap();
     }
 }

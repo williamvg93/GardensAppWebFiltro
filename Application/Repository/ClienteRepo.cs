@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Entities;
+using Domain.Entities.Query;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
@@ -35,24 +36,19 @@ public class ClienteRepo : GenericRepository<Cliente>, ICliente
         ).ToListAsync();
     }
 
-    /*     public async Task<IEnumerable<Pedido>> GetClientesPedidoRetrasado()
-        {
-            return await (
-                from ped in _context.Pedidos
-                join cli in _context.Clientes
-                on ped.CodigoCliente equals cli.CodigoCliente
-                where ped.FechaEntrega.Year > ped.FechaEsperada.Year && ped.FechaEntrega.Month > ped.FechaEsperada.Month && ped.FechaEntrega.Day > ped.FechaEsperada.Day
-                group ped by ped.CodigoCliente into pedCli
-                select new Pedido()
-            ).ToListAsync();
-        } */
-    /* 
-                return await (
-                    from ped in _context.Pedidos
-                    group ped by ped.Estado into pedEstados
-                    select new Pedido
-                    {
-                        Estado = pedEstados.Key
-                    }
-                ).ToListAsync(); */
+    public async Task<IEnumerable<ClienteCantidadPedidos>> GetCantidadPedidosCliente()
+    {
+        return await (
+            from cli in _context.Clientes
+            join ped in _context.Pedidos
+            on cli.CodigoCliente equals ped.CodigoCliente
+            group cli by new { cli.NombreCliente } into pedCli
+            /* group pedCli by pedCli.Key.NombreCliente into NomCli  */
+            select new ClienteCantidadPedidos
+            {
+                NombreCliente = pedCli.Key.NombreCliente,
+                CantidadPedidos = pedCli.Count()
+            }
+        ).ToListAsync();
+    }
 }

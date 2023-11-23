@@ -35,19 +35,19 @@ public class ClienteController : BaseController
         return _mapper.Map<List<Cliente>>(clientes);
     }
 
-    /* Get Data by ID */
-    /*     [HttpGet("GetClientesPedidoRetrasado")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<ClientePedidoDto>>> GetClientesPedidoRetrasado()
+    /* Get Clientes Cantidad Pedidos por Cliente*/
+    [HttpGet("GetCantidadPedidosCliente")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IEnumerable<ClienteCantidadPedidosDto>>> GetCantidadPedidosCliente()
+    {
+        var clientes = await _unitOfWork.Clientes.GetCantidadPedidosCliente();
+        if (clientes == null)
         {
-            var clientes = await _unitOfWork.Clientes.GetClientesPedidoRetrasado();
-            if (clientes == null)
-            {
-                return NotFound();
-            }
+            return NotFound();
+        }
 
-            return _mapper.Map<List<ClientePedidoDto>>(clientes);
-        } */
+        return _mapper.Map<List<ClienteCantidadPedidosDto>>(clientes);
+    }
 }
