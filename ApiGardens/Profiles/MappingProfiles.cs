@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiGardens.Dtos.Cliente;
+using ApiGardens.Dtos.Producto;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Entities.Query;
@@ -17,6 +18,9 @@ public class MappingProfiles : Profile
         .ReverseMap();
 
         CreateMap<Cliente, ClienteNombreDto>()
+        .ReverseMap();
+
+        CreateMap<ProductUnidades, ProductUnidadesDto>()
         .ReverseMap();
 
         CreateMap<ClienteGamaProducto, ClienteGamaProductoDto>()

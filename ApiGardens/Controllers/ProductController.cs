@@ -2,21 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiGardens.Dtos.Cliente;
+using ApiGardens.Dtos.Producto;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ApiGardens.Controllers;
 
-public class ClienteController : BaseController
+public class ProductController : BaseController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public ClienteController(IUnitOfWork unitOfWork, IMapper mapper)
+    public ProductController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -27,25 +26,25 @@ public class ClienteController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<Cliente>>> Get()
+    public async Task<ActionResult<IEnumerable<Producto>>> Get()
     {
-        var clientes = await _unitOfWork.Clientes.GetAllAsync();
-        return _mapper.Map<List<Cliente>>(clientes);
+        var productos = await _unitOfWork.Productos.GetAllAsync();
+        return _mapper.Map<List<Producto>>(productos);
     }
 
-    /* Get Clientes Cantidad Pedidos por Cliente*/
-    [HttpGet("GetCantidadPedidosCliente")]
+    /* Get productos que nunca han aparecido en un pedido */
+    [HttpGet("GetProductsNoPedidos")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<ClienteCantidadPedidosDto>>> GetCantidadPedidosCliente()
+    public async Task<ActionResult<ProductUnidadesDto>> GetProductsNoPedidos()
     {
-        var clientes = await _unitOfWork.Clientes.GetCantidadPedidosCliente();
-        if (clientes == null)
+        var productos = await _unitOfWork.Productos.GetProductsNoPedidos();
+        if (productos == null)
         {
             return NotFound();
         }
 
-        return _mapper.Map<List<ClienteCantidadPedidosDto>>(clientes);
+        return _mapper.Map<ProductUnidadesDto>(productos);
     }
 }
