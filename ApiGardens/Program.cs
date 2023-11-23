@@ -10,14 +10,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
-
 /* Add connection to database */
 builder.Services.AddDbContext<ApiGardensContext>(options =>
 {
     string connectionStrings = builder.Configuration.GetConnectionString("MysqlConnec");
     options.UseMySql(connectionStrings, ServerVersion.AutoDetect(connectionStrings));
 });
+
+var app = builder.Build();
 
 
 
