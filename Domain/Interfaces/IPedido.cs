@@ -9,4 +9,5 @@ namespace Domain.Interfaces;
 public interface IPedido : IGenericRepository<Pedido>
 {
     Task<IEnumerable<Cliente>> GetClientesPedidoRetrasado();
+    Task<IEnumerable<Pedido>> GetClientesPedidoRetrasadoData();
 }

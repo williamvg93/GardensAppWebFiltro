@@ -33,4 +33,16 @@ public class PedidoRepo : GenericRepository<Pedido>, IPedido
             }
         ).ToListAsync();
     }
+
+    public async Task<IEnumerable<Pedido>> GetClientesPedidoRetrasadoData()
+    {
+        return await (
+
+            from ped in _context.Pedidos
+            where ped.FechaEntrega.Year >= ped.FechaEsperada.Year && ped.FechaEntrega.Month >= ped.FechaEsperada.Month && ped.FechaEntrega.Day > ped.FechaEsperada.Day
+            join cli in _context.Clientes
+            on ped.CodigoCliente equals cli.CodigoCliente
+            select ped
+        ).ToListAsync();
+    }
 }

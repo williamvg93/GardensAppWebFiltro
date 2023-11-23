@@ -4,7 +4,7 @@ Gardens Web Api 4 layers
 
 # 1) Devuelve el listado de clientes indicando el nombre del cliente y cuántos pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no han realizado ningún pedido.
 
-- ## endpoint: http://localhost:5257/gardens//gardens/Cliente/GetCantidadPedidosCliente
+- ## endpoint: http://localhost:5257/gardens/Cliente/GetCantidadPedidosCliente
 - ## code:
 
   public async Task<IEnumerable<ClienteCantidadPedidos>> GetCantidadPedidosCliente()
@@ -24,6 +24,27 @@ Gardens Web Api 4 layers
   }
 
 - Primero hacemos un form \_context.Clientes para traer los datos de la tabla Clientes, hacemos un join con las tabla pedidos, agrupamos los registros repetidos con group teniendo en cuenta el nombre del cliente, asi con el metodo Count sabremos cuantos pedidos ha realizado el cliente, por ultimo creamos un nuevo objeto en base a la clase GetCantidadPedidosCliente y agregamos el dato que se nos pide en la consulta (NombreCliente y CantidadPedidos), retornamos la lista.
+
+# 2) Devuelve un listado con el código de pedido, código de cliente, fecha esperada y fecha de entrega de los pedidos que no han sido entregados a tiempo.
+
+- ## endpoint: http://localhost:5257/gardens//gardens/Pedido/GetClientesPedidoRetrasadoData
+- ## code:
+
+  public async Task<IEnumerable<Pedido>> GetClientesPedidoRetrasadoData()
+  {
+  return await (
+
+            from ped in _context.Pedidos
+            where ped.FechaEntrega.Year >= ped.FechaEsperada.Year && ped.FechaEntrega.Month >= ped.FechaEsperada.Month && ped.FechaEntrega.Day > ped.FechaEsperada.Day
+            join cli in _context.Clientes
+            on ped.CodigoCliente equals cli.CodigoCliente
+            select ped
+        ).ToListAsync();
+
+  }
+
+- Primero hacemos un form \_context.Pedidos para traer los datos de la tabla Pedidos, despues colocamos
+  una condicion para que nos de solo los pedidos que llegaron tarde, por ultimo devolemos la lsita de pedidos con retraso en la entrega, en el controlador utilizaremos un dto para solo mostrar los datos requeridos (código de pedido, código de cliente, fecha esperada y fecha de entrega)
 
 # 9) Devuelve el nombre de los clientes a los que no se les ha entregado a tiempo un pedido.
 

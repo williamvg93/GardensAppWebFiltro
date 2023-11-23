@@ -31,14 +31,29 @@ public class PedidoController : BaseController
         return _mapper.Map<List<Pedido>>(clientes);
     }
 
-    /* Get Data by ID */
+    /* Get Codigo de Clientes con Pedidos Retrasado */
     [HttpGet("GetClientesPedidoRetrasado")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<ClientePedidoDto>>> GetClientesPedidoRetrasado()
+    public async Task<ActionResult<IEnumerable<ClienteNombreDto>>> GetClientesPedidoRetrasado()
     {
         var pedidos = await _unitOfWork.Pedidos.GetClientesPedidoRetrasado();
+        if (pedidos == null)
+        {
+            return NotFound();
+        }
+        return _mapper.Map<List<ClienteNombreDto>>(pedidos);
+    }
+
+    /* Get Codigo de Clientes con Pedidos Retrasado */
+    [HttpGet("GetClientesPedidoRetrasadoData")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IEnumerable<ClientePedidoDto>>> GetClientesPedidoRetrasadoData()
+    {
+        var pedidos = await _unitOfWork.Pedidos.GetClientesPedidoRetrasadoData();
         if (pedidos == null)
         {
             return NotFound();

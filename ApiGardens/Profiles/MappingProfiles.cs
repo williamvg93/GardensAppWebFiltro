@@ -13,7 +13,10 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
-        CreateMap<Cliente, ClientePedidoDto>()
+        CreateMap<Pedido, ClientePedidoDto>()
+        .ReverseMap();
+
+        CreateMap<Cliente, ClienteNombreDto>()
         .ReverseMap();
 
         CreateMap<ClienteGamaProducto, ClienteGamaProductoDto>()

@@ -7,5 +7,9 @@ namespace ApiGardens.Dtos.Cliente;
 
 public class ClientePedidoDto
 {
-    public string NombreCliente { get; set; }
+    public int CodigoPedido { get; set; }
+    public int CodigoCliente { get; set; }
+    public DateOnly FechaEsperada { get; set; }
+    public DateOnly FechaEntrega { get; set; }
+
 }
