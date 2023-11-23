@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ApiGardens.Dtos.Cliente;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.Query;
 
 namespace ApiGardens.Profiles;
 
@@ -14,7 +15,8 @@ public class MappingProfiles : Profile
     {
         CreateMap<Cliente, ClientePedidoDto>()
         .ReverseMap();
-        /* CreateMap<CInventory, InventoryPDto>()
-        .ReverseMap(); */
+
+        CreateMap<ClienteGamaProducto, ClienteGamaProductoDto>()
+        .ReverseMap();
     }
 }
