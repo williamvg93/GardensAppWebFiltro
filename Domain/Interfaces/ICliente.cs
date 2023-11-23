@@ -8,5 +8,5 @@ namespace Domain.Interfaces;
 
 public interface ICliente : IGenericRepository<Cliente>
 {
-
+    /* Task<Client> GetClientWithMaxCredit(); */
 }
